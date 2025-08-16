@@ -1,0 +1,45 @@
+@startuml
+!include <C4/C4_Container>
+
+Person(client, "Клиент")
+Person(operator, "Оператор кол-центра")
+Person(front, "Сотрудник фронт офиса")
+Person(back, "Сотрудник бэк офиса")
+
+Container(website, "WebSite", "React")
+Container(callCenter, "Колл-центр", "React, Java")
+Container(app, "Интернет банк", "ASP.NET MVC")
+
+Container(service, "Сервис заявок на депозиты", "Java")
+ContainerDb(serviceDB, "БД депозитов", "MS SQL")
+
+Container(abs, "АБС", "Delphi")
+ContainerDb(absDB, "DB", "Oracle, PL-SQL")
+
+Container(kafka, "Kafka")
+
+System(sms, "СМС Шлюз")
+
+Rel(client, website, "Отправляет заявку на депозит")
+Rel(website, callCenter , "Передача данных для формирования заявки")
+Rel(operator, callCenter , "Обработка данных")
+Rel(operator, service , "Создание заявки")
+
+
+Rel(service, serviceDB , "Хранение данных")
+
+Rel(client, app, "Отправляет заявку на депозит")
+Rel(app, service , "Создание заявки")
+
+
+Rel(service, kafka, "Отправка заявок в очередь")
+Rel(abs, kafka, "Получение новых заявок")
+
+
+Rel(back, abs, "Согласовывает заявки")
+Rel(front, abs, "Подтверждает данные по заявке")
+
+Rel(abs, sms, "Подтверждение через смс")
+Rel(abs, absDB, "Хранение данных")
+
+@enduml 
