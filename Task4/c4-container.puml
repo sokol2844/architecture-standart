@@ -1,0 +1,29 @@
+@startuml
+!include <C4/C4>
+!include <C4/C4_Container>
+
+
+Person(client, "Клиент")
+Person(back, "Сотрудник бек офиса")
+Person(operator, "Оператор кол-центра")
+Person(operatorExt, "Оператор партнерского кол-центра")
+
+Container(callCenter, "Кол-центр")
+Container(abs, "АБС")
+Container(callCenterExt, "Партнерский кол-центр")
+
+Rel(client, callCenter, "Обращение в кол-центр")
+Rel(client, callCenterExt, "Обращение в кол-центр")
+
+Rel(operatorExt, callCenterExt, "Обработка заявки")
+
+Rel(operator, callCenter, "Обработка заявки")
+Rel(operator, callCenter, "Просмотр ставок")
+
+
+Rel(abs, callCenter, "Передача актуальных ставок")
+
+Rel(back, operatorExt, "Передача актуальных ставок")
+
+
+@enduml
